@@ -22,8 +22,8 @@ local Config = {
 
 local ShowNotification = function(text)
     SetNotificationTextEntry("STRING")
-	AddTextComponentString(text)
-	DrawNotification(true, true)
+    AddTextComponentString(text)
+    DrawNotification(true, true)
 end
 
 local CanUseBinoculars = function()
@@ -107,9 +107,9 @@ Citizen.CreateThread(function()
         
         if binocularsScaleform then
             local scaleform = RequestScaleformMovie("BINOCULARS")
-			while not HasScaleformMovieLoaded(scaleform) do
-				Citizen.Wait(1)
-			end
+            while not HasScaleformMovieLoaded(scaleform) do
+                Citizen.Wait(100)
+            end
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
         end
 
