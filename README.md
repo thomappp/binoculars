@@ -9,3 +9,4 @@
 Ajouts à faire en fonction de simpleV :
 - Vérification de la possession de l'item "Jumelles"
 - Désactivation du mode jumelles si le joueur meurt
+- Sécurité arrêt du script par un joueur
