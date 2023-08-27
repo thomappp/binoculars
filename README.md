@@ -11,3 +11,4 @@ Ajouts à faire en fonction de simpleV :
 - Désactivation du mode jumelles si le joueur meurt
 - Sécurité arrêt du script par un joueur (système de bannissement)
 - Ajout d'un "/me Le personnage utilise ses jumelles" pour différencier l'animation de base et le script ?
+- Cacher l'HUD du serveur lors de l'utilisation et ne pas pouvoir utiliser les menus et ALT
