@@ -15,3 +15,7 @@ Ajouts à faire en fonction de simpleV :
 - Sécurité arrêt du script par un joueur (système de bannissement)
 - Ajout d'un "/me Le personnage utilise ses jumelles" pour différencier l'animation de base et le script ?
 - Cacher l'HUD du serveur lors de l'utilisation et ne pas pouvoir utiliser les menus et ALT
+
+![screeeshot_1](https://github.com/thomappp/binoculars_script/blob/main/screens/image.png?raw=true)
+![screeeshot_2](https://github.com/thomappp/binoculars_script/blob/main/screens/image_2.png?raw=true)
+![screeeshot_3](https://github.com/thomappp/binoculars_script/blob/main/screens/image_3.png?raw=true)
