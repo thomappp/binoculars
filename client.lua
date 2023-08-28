@@ -27,8 +27,6 @@ local Config = {
     showDistance = true
 }
 
-print('Script')
-
 local ShowNotification = function(text)
     SetNotificationTextEntry("STRING")
     AddTextComponentString(text)
@@ -123,11 +121,11 @@ local SetupScaleform = function(scaleformSelected)
 
     RegisterButton(0, { Config.exitBinocularsMode }, "Ranger les jumelles")
     RegisterButton(1, { Config.placeWaypointOnWorld }, "Placer un repère")
-    RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
-    RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
+    RegisterButton(2, { Config.toggleThermalVision }, "Vision thermique")
+    RegisterButton(3, { 97, 96 }, "Utiliser le zoom")
 
     if Config.showDistance then
-        RegisterButton(3, { nil }, ("Distance %sm"):format(binocularsDistance))
+        RegisterButton(4, { nil }, ("Distance %sm"):format(binocularsDistance))
     end
 
     PushScaleformMovieFunction(scaleformButton, "DRAW_INSTRUCTIONAL_BUTTONS")
@@ -168,7 +166,7 @@ end
 local PlaceWaypoint = function(canUse, coords)
     if canUse then
         SetNewWaypoint(coords.x, coords.y)
-        ShowNotification("Vous avez placé un repère sur la carte ici.")
+        ShowNotification("Vous avez placé un repère sur la carte.")
     else
         ShowNotification("Vous ne pouvez pas placer de repère sur la carte ici.")
     end
