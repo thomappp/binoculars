@@ -1,5 +1,4 @@
 # binoculars_script
-
 - Logs d'activation et de désactivation dans la console
 - Sécurité : cooldown de commande, impossible d'utiliser la commande dans un véhicule ou dans l'eau
 - Désactivation du mode jumelles si le joueur se retrouve dans un véhicule ou dans l'eau par magie
@@ -9,7 +8,7 @@
 - Distance entre le joueur et ce qu'il regarde activable
 - Possibilité de placer un repère sur la carte à partir de la vue des jumelles
 
-Ajouts à faire en fonction de simpleV :
+# Ajouts à faire en fonction de simpleV :
 - Vérification de la possession de l'item "Jumelles"
 - Désactivation du mode jumelles si le joueur meurt
 - Sécurité arrêt du script par un joueur (système de bannissement)
