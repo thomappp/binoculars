@@ -6,7 +6,7 @@
 - Accès au menu pause et à la molette des armes impossible dans le mode jumelles
 - Possibilité de configurer la vitesse de déplacement des jumelles et la vitesse du zoom dans le fichier client
 - Vision thermique activable
-- Distance entre le joueur et ce qu'il regarde affichée
+- Distance entre le joueur et ce qu'il regarde activable
 
 Ajouts à faire en fonction de simpleV :
 - Vérification de la possession de l'item "Jumelles"
