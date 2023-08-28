@@ -45,6 +45,7 @@ local EnterBinocularsMode = function()
     SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
     ShowNotification(("Faites /%s pour ranger vos jumelles."):format(Config.command))
 
+    binocularsZoom = 70.0
     binocularsPitch = 0.0
     binocularsHeading = GetEntityHeading(PlayerPedId())
 
