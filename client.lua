@@ -17,10 +17,10 @@ local isThermalVisionActive = false
 local binocularsDistance = 0.0
 
 local Config = {
-    command = "jumelles",
+    commandName = "jumelles",
     binocularsSpeed = 2.0,
     binocularsZoomSpeed = 2.0,
-    exitMode = 194,
+    exitBinocularsMode = 194,
     toggleThermalVision = 38,
     showDistance = true,
     playerPedFollowsCamera = false
@@ -116,7 +116,7 @@ local SetupScaleform = function(scaleformSelected)
     PushScaleformMovieFunctionParameterInt(200)
     PopScaleformMovieFunctionVoid()
 
-    RegisterButton(0, { Config.exitMode }, "Ranger les jumelles")
+    RegisterButton(0, { Config.exitBinocularsMode }, "Ranger les jumelles")
     RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
     RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
 
@@ -159,7 +159,7 @@ local ScreenToWorld = function(screenPosition, maxDistance)
 	end
 end
 
-RegisterCommand(Config.command, function()
+RegisterCommand(Config.commandName, function()
 
     local currentTime = GetGameTimer()
 
@@ -216,7 +216,7 @@ Citizen.CreateThread(function()
             end
 
             if Config.showDistance then
-                local hitSomething, worldPosition, normalDir, hitEntity = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
+                local hitSomething, worldPosition = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
             
                 if hitSomething then
                     binocularsDistance = #(playerPedCoords - worldPosition)
@@ -234,7 +234,7 @@ Citizen.CreateThread(function()
                 SetSeethrough(isThermalVisionActive)
             end
 
-            if IsControlJustReleased(0, Config.exitMode) then
+            if IsControlJustReleased(0, Config.exitBinocularsMode) then
                 binocularsActive = false
                 ExitBinocularsMode()
             end
