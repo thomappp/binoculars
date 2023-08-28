@@ -42,6 +42,21 @@ local CanUseBinoculars = function()
     elseif IsEntityInWater(playerPed) then
         ShowNotification("Vous ne pouvez pas utiliser vos jumelles dans l'eau.")
         return false
+    elseif IsPedRagdoll(playerPed) then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles lorsque vous êtes à terre.")
+        return false
+    elseif IsPedFalling(playerPed) then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles lorsque vous êtes à terre.")
+        return false
+    elseif IsPedRunning(playerPed) then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles en courant.")
+        return false
+    elseif IsPedSprinting(playerPed) then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles en courant.")
+        return false
+    elseif IsPedShooting(playerPed) then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles en utilisant une arme.")
+        return false
     end
 
     return true
