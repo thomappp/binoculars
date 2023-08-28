@@ -5,6 +5,7 @@
 - Désactivation du mode jumelles si le joueur se retrouve dans un véhicule ou dans l'eau par magie
 - Accès au menu pause et à la molette des armes impossible dans le mode jumelles
 - Possibilité de configurer la vitesse de déplacement des jumelles et la vitesse du zoom dans le fichier client
+- Vision thermique activable
 
 Ajouts à faire en fonction de simpleV :
 - Vérification de la possession de l'item "Jumelles"
