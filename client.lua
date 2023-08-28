@@ -23,8 +23,11 @@ local Config = {
     binocularsZoomSpeed = 2.0,
     exitBinocularsMode = 194,
     toggleThermalVision = 38,
+    placeWaypointOnWorld = 215,
     showDistance = true
 }
+
+print('Script')
 
 local ShowNotification = function(text)
     SetNotificationTextEntry("STRING")
@@ -47,15 +50,16 @@ local CanUseBinoculars = function()
 end
 
 local EnterBinocularsMode = function()
+    local playerPed = PlayerPedId()
     binocularsScaleform = true
-    SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
+    SetCurrentPedWeapon(playerPed, GetHashKey("WEAPON_UNARMED"), true)
 
     binocularsZoom = 70.0
     binocularsPitch = 0.0
-    binocularsHeading = GetEntityHeading(PlayerPedId())
+    binocularsHeading = GetEntityHeading(playerPed)
     initialHeading = binocularsHeading
 
-    playerPedCoords = GetEntityCoords(PlayerPedId())
+    playerPedCoords = GetEntityCoords(playerPed)
     binocularsCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
 
     SetCamCoord(binocularsCamera, playerPedCoords.x, playerPedCoords.y, playerPedCoords.z + 1.0)
@@ -118,6 +122,7 @@ local SetupScaleform = function(scaleformSelected)
     PopScaleformMovieFunctionVoid()
 
     RegisterButton(0, { Config.exitBinocularsMode }, "Ranger les jumelles")
+    RegisterButton(1, { Config.placeWaypointOnWorld }, "Placer un repère")
     RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
     RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
 
@@ -160,6 +165,15 @@ local ScreenToWorld = function(screenPosition, maxDistance)
     end
 end
 
+local PlaceWaypoint = function(canUse, coords)
+    if canUse then
+        SetNewWaypoint(coords.x, coords.y)
+        ShowNotification("Vous avez placé un repère sur la carte ici.")
+    else
+        ShowNotification("Vous ne pouvez pas placer de repère sur la carte ici.")
+    end
+end
+
 RegisterCommand(Config.commandName, function()
 
     local currentTime = GetGameTimer()
@@ -184,7 +198,7 @@ RegisterCommand(Config.commandName, function()
         if countTime > 0 then
             ShowNotification(("Vous devez attendre %s seconde(s) pour utiliser cette commande."):format(countTime))
         elseif countTime == 0 then
-            ShowNotification("Attendez encore un petit instant...")
+            ShowNotification("Attendez un instant...")
         end
     end
 end)
@@ -216,19 +230,21 @@ Citizen.CreateThread(function()
                 ExitBinocularsMode()
             end
 
-            if Config.showDistance then
-                local hitSomething, worldPosition = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
+            local hitSomething, worldPosition = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
             
-                if hitSomething then
-                    binocularsDistance = #(playerPedCoords - worldPosition)
-                    binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
-                end
+            if Config.showDistance and hitSomething then
+                binocularsDistance = #(playerPedCoords - worldPosition)
+                binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
             end
 
             HudWeaponWheelIgnoreSelection()
             DisableControlAction(1, 37, true)
             DisableControlAction(0, 200, true)
             DisableControlAction(0, 199, true)
+
+            if IsControlJustReleased(0, Config.placeWaypointOnWorld) then
+                PlaceWaypoint(hitSomething, worldPosition)
+            end
 
             if IsControlJustReleased(0, Config.toggleThermalVision) then
                 isThermalVisionActive = not isThermalVisionActive
@@ -239,7 +255,7 @@ Citizen.CreateThread(function()
                 binocularsActive = false
                 ExitBinocularsMode()
             end
-
+            
             local pitchChange = -GetDisabledControlNormal(0, 2) * Config.binocularsSpeed
             local yawChange = -GetDisabledControlNormal(0, 1) * Config.binocularsSpeed
 
