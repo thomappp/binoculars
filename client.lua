@@ -22,6 +22,7 @@ local Config = {
     binocularsZoomSpeed = 2.0,
     exitMode = 194,
     toggleThermalVision = 38,
+    showDistance = true,
     playerPedFollowsCamera = false
 }
 
@@ -118,7 +119,10 @@ local SetupScaleform = function(scaleformSelected)
     RegisterButton(0, { Config.exitMode }, "Ranger les jumelles")
     RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
     RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
-    RegisterButton(3, { nil }, ("Distance %sm"):format(binocularsDistance))
+
+    if Config.showDistance then
+        RegisterButton(3, { nil }, ("Distance %sm"):format(binocularsDistance))
+    end
 
     PushScaleformMovieFunction(scaleformButton, "DRAW_INSTRUCTIONAL_BUTTONS")
     PopScaleformMovieFunctionVoid()
@@ -211,11 +215,13 @@ Citizen.CreateThread(function()
                 ExitBinocularsMode()
             end
 
-			local hitSomething, worldPosition, normalDir, hitEntity = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
+            if Config.showDistance then
+                local hitSomething, worldPosition, normalDir, hitEntity = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
             
-            if hitSomething then
-                binocularsDistance = #(playerPedCoords - worldPosition)
-                binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
+                if hitSomething then
+                    binocularsDistance = #(playerPedCoords - worldPosition)
+                    binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
+                end
             end
 
             HudWeaponWheelIgnoreSelection()
