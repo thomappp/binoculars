@@ -7,6 +7,7 @@
 - Possibilité de configurer la vitesse de déplacement des jumelles et la vitesse du zoom dans le fichier client
 - Vision thermique activable
 - Distance entre le joueur et ce qu'il regarde activable
+- Possibilité de placer un repère sur la carte à partir de la vue des jumelles
 
 Ajouts à faire en fonction de simpleV :
 - Vérification de la possession de l'item "Jumelles"
