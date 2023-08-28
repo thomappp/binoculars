@@ -5,6 +5,7 @@ local playerPedCoords = nil
 
 local binocularsPitch = 0.0
 local binocularsHeading = 0.0
+local initialHeading = 0.0
 
 local binocularsZoom = 70.0
 local binocularsMinZoom = 0.0
@@ -22,8 +23,7 @@ local Config = {
     binocularsZoomSpeed = 2.0,
     exitBinocularsMode = 194,
     toggleThermalVision = 38,
-    showDistance = true,
-    playerPedFollowsCamera = false
+    showDistance = true
 }
 
 local ShowNotification = function(text)
@@ -53,6 +53,7 @@ local EnterBinocularsMode = function()
     binocularsZoom = 70.0
     binocularsPitch = 0.0
     binocularsHeading = GetEntityHeading(PlayerPedId())
+    initialHeading = binocularsHeading
 
     playerPedCoords = GetEntityCoords(PlayerPedId())
     binocularsCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
@@ -242,8 +243,16 @@ Citizen.CreateThread(function()
             local pitchChange = -GetDisabledControlNormal(0, 2) * Config.binocularsSpeed
             local yawChange = -GetDisabledControlNormal(0, 1) * Config.binocularsSpeed
 
-            binocularsPitch = math.max(-80.0, math.min(80.0, binocularsPitch + pitchChange))
-            binocularsHeading = binocularsHeading + yawChange
+            local mathPitchChange = math.max(-80.0, math.min(80.0, binocularsPitch + pitchChange))
+            local mathYawChange = binocularsHeading + yawChange
+            
+            if mathPitchChange > -40.0 then
+                binocularsPitch = mathPitchChange
+            end
+
+            if mathYawChange > initialHeading - 90.0 and mathYawChange < initialHeading + 90.0 then
+                binocularsHeading = mathYawChange
+            end
 
             local scrollEnabled = 0
             if IsControlJustReleased(0, 96) then
@@ -266,10 +275,6 @@ Citizen.CreateThread(function()
             end
 
             SetCamRot(binocularsCamera, binocularsPitch, 0.0, binocularsHeading, 2)
-
-            if binocularsHeading ~= 0.0 and Config.playerPedFollowsCamera then
-                SetEntityHeading(playerPed, binocularsHeading)
-            end
         end
     end
 end)
