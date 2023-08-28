@@ -14,6 +14,7 @@ local lastBinocularsUsage = 0
 local binocularsUsageCooldown = 5000
 
 local isThermalVisionActive = false
+local binocularsDistance = 0.0
 
 local Config = {
     command = "jumelles",
@@ -117,6 +118,7 @@ local SetupScaleform = function(scaleformSelected)
     RegisterButton(0, { Config.exitMode }, "Ranger les jumelles")
     RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
     RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
+    RegisterButton(3, { nil }, ("Distance %sm"):format(binocularsDistance))
 
     PushScaleformMovieFunction(scaleformButton, "DRAW_INSTRUCTIONAL_BUTTONS")
     PopScaleformMovieFunctionVoid()
@@ -129,6 +131,28 @@ local SetupScaleform = function(scaleformSelected)
     PopScaleformMovieFunctionVoid()
 
     return scaleformButton
+end
+
+local ScreenToWorld = function(screenPosition, maxDistance)
+	local fov = GetGameplayCamFov()
+	local camRight, camForward, camUp, camPos = GetCamMatrix(binocularsCamera)
+
+	screenPosition = vector2(screenPosition.x - 0.5, screenPosition.y - 0.5) * 2.0
+
+	local fovRadians = (fov * 3.14) / 180.0
+	local to = camPos + camForward + (camRight * screenPosition.x * fovRadians * GetAspectRatio(false) * 0.534375) - (camUp * screenPosition.y * fovRadians * 0.534375)
+
+	local direction = (to - camPos) * maxDistance
+	local endPoint = camPos + direction
+
+	local rayHandle = StartShapeTestRay(camPos.x, camPos.y, camPos.z, endPoint.x, endPoint.y, endPoint.z, -1, nil, 0)
+	local _, hit, worldPosition, normalDirection, entity = GetShapeTestResult(rayHandle)
+
+	if (hit == 1) then
+		return true, worldPosition, normalDirection, entity
+	else
+		return false, vector3(0, 0, 0), vector3(0, 0, 0), nil
+	end
 end
 
 RegisterCommand(Config.command, function()
@@ -185,6 +209,13 @@ Citizen.CreateThread(function()
             if isInVehicle or isInWater then
                 binocularsActive = false
                 ExitBinocularsMode()
+            end
+
+			local hitSomething, worldPosition, normalDir, hitEntity = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
+            
+            if hitSomething then
+                binocularsDistance = #(playerPedCoords - worldPosition)
+                binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
             end
 
             HudWeaponWheelIgnoreSelection()
