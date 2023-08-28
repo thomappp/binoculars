@@ -19,7 +19,8 @@ local Config = {
     command = "jumelles",
     binocularsSpeed = 2.0,
     binocularsZoomSpeed = 2.0,
-    toggleThermalVision = { control = "E", controlId = 38 },
+    exitMode = 194,
+    toggleThermalVision = 38,
     playerPedFollowsCamera = false
 }
 
@@ -113,8 +114,9 @@ local SetupScaleform = function(scaleformSelected)
     PushScaleformMovieFunctionParameterInt(200)
     PopScaleformMovieFunctionVoid()
 
-    RegisterButton(0, { Config.toggleThermalVision.controlId }, "Vision thermique")
-    RegisterButton(1, { 97, 96 }, "Utiliser le zoom")
+    RegisterButton(0, { Config.exitMode }, "Ranger les jumelles")
+    RegisterButton(1, { Config.toggleThermalVision }, "Vision thermique")
+    RegisterButton(2, { 97, 96 }, "Utiliser le zoom")
 
     PushScaleformMovieFunction(scaleformButton, "DRAW_INSTRUCTIONAL_BUTTONS")
     PopScaleformMovieFunctionVoid()
@@ -190,9 +192,14 @@ Citizen.CreateThread(function()
             DisableControlAction(0, 200, true)
             DisableControlAction(0, 199, true)
 
-            if IsControlJustReleased(0, Config.toggleThermalVision.controlId) then
+            if IsControlJustReleased(0, Config.toggleThermalVision) then
                 isThermalVisionActive = not isThermalVisionActive
                 SetSeethrough(isThermalVisionActive)
+            end
+
+            if IsControlJustReleased(0, Config.exitMode) then
+                binocularsActive = false
+                ExitBinocularsMode()
             end
 
             local pitchChange = -GetDisabledControlNormal(0, 2) * Config.binocularsSpeed
@@ -230,7 +237,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-AddEventHandler('onResourceStop', function(resourceName)
+AddEventHandler("onResourceStop", function(resourceName)
     if resourceName == GetCurrentResourceName() then
         ClearPedTasks(PlayerPedId())
 
