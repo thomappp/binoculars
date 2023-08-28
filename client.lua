@@ -154,9 +154,9 @@ local ScreenToWorld = function(screenPosition, maxDistance)
 	local _, hit, worldPosition, normalDirection, entity = GetShapeTestResult(rayHandle)
 
 	if (hit == 1) then
-		return true, worldPosition, normalDirection, entity
+        return true, worldPosition, normalDirection, entity
 	else
-		return false, vector3(0, 0, 0), vector3(0, 0, 0), nil
+        return false, vector3(0, 0, 0), vector3(0, 0, 0), nil
 	end
 end
 
