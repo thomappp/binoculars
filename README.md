@@ -8,7 +8,7 @@
 - Distance entre le joueur et ce qu'il regarde activable
 - Possibilité de placer un repère sur la carte à partir de la vue des jumelles
 
-# Ajouts à faire en fonction de simpleV :
+# Ajouts à faire en fonction de SimpleV :
 - Vérification de la possession de l'item "Jumelles"
 - Désactivation du mode jumelles si le joueur meurt
 - Sécurité arrêt du script par un joueur (système de bannissement)
