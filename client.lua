@@ -69,6 +69,7 @@ end
 
 local ExitBinocularsMode = function()
     binocularsScaleform = false
+    playerPedCoords = nil
     ClearPedTasks(PlayerPedId())
     
     if binocularsCamera ~= nil then
@@ -228,9 +229,18 @@ Citizen.CreateThread(function()
                 ExitBinocularsMode()
             end
 
-            local hitSomething, worldPosition = ScreenToWorld(vector2(0.5, 0.5), 1200.0)
+            if playerPedCoords ~= nil then
+                local disturbanceDistance = #(playerPedCoords - GetEntityCoords(playerPed))
+                if disturbanceDistance > 0.5 then
+                    binocularsActive = false
+                    ExitBinocularsMode()
+                    ShowNotification("Quelque chose a perturbé votre observation.")
+                end
+            end
+
+            local hitSomething, worldPosition = ScreenToWorld(vector2(0.5, 0.5), 3000.0)
             
-            if Config.showDistance and hitSomething then
+            if Config.showDistance and hitSomething and playerPedCoords ~= nil then
                 binocularsDistance = #(playerPedCoords - worldPosition)
                 binocularsDistance = tonumber(string.format("%.1f", binocularsDistance))
             end
