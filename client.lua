@@ -139,25 +139,25 @@ local SetupScaleform = function(scaleformSelected)
 end
 
 local ScreenToWorld = function(screenPosition, maxDistance)
-	local fov = GetGameplayCamFov()
-	local camRight, camForward, camUp, camPos = GetCamMatrix(binocularsCamera)
+    local fov = GetGameplayCamFov()
+    local camRight, camForward, camUp, camPos = GetCamMatrix(binocularsCamera)
 
-	screenPosition = vector2(screenPosition.x - 0.5, screenPosition.y - 0.5) * 2.0
+    screenPosition = vector2(screenPosition.x - 0.5, screenPosition.y - 0.5) * 2.0
 
-	local fovRadians = (fov * 3.14) / 180.0
-	local to = camPos + camForward + (camRight * screenPosition.x * fovRadians * GetAspectRatio(false) * 0.534375) - (camUp * screenPosition.y * fovRadians * 0.534375)
+    local fovRadians = (fov * 3.14) / 180.0
+    local to = camPos + camForward + (camRight * screenPosition.x * fovRadians * GetAspectRatio(false) * 0.534375) - (camUp * screenPosition.y * fovRadians * 0.534375)
 
-	local direction = (to - camPos) * maxDistance
-	local endPoint = camPos + direction
+    local direction = (to - camPos) * maxDistance
+    local endPoint = camPos + direction
 
-	local rayHandle = StartShapeTestRay(camPos.x, camPos.y, camPos.z, endPoint.x, endPoint.y, endPoint.z, -1, nil, 0)
-	local _, hit, worldPosition, normalDirection, entity = GetShapeTestResult(rayHandle)
+    local rayHandle = StartShapeTestRay(camPos.x, camPos.y, camPos.z, endPoint.x, endPoint.y, endPoint.z, -1, nil, 0)
+    local _, hit, worldPosition, normalDirection, entity = GetShapeTestResult(rayHandle)
 
-	if (hit == 1) then
+    if (hit == 1) then
         return true, worldPosition, normalDirection, entity
-	else
+    else
         return false, vector3(0, 0, 0), vector3(0, 0, 0), nil
-	end
+    end
 end
 
 RegisterCommand(Config.commandName, function()
