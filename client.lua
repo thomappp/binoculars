@@ -169,7 +169,7 @@ Citizen.CreateThread(function()
             local form = SetupScaleform("instructional_buttons")
 
             while not HasScaleformMovieLoaded(scaleform) do
-                Citizen.Wait(100)
+                Citizen.Wait(0)
             end
 
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
