@@ -46,7 +46,6 @@ end
 local EnterBinocularsMode = function()
     binocularsScaleform = true
     SetCurrentPedWeapon(PlayerPedId(), GetHashKey("WEAPON_UNARMED"), true)
-    ShowNotification(("~g~/%s~s~ pour ranger vos jumelles.\n~g~%s~s~ pour la vision thermique."):format(Config.command, Config.toggleThermalVision.control))
 
     binocularsZoom = 70.0
     binocularsPitch = 0.0
