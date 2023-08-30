@@ -32,3 +32,10 @@ local CanUseBinoculars = function()
         return false
     end
 end
+
+
+-- ox_inventory/data/items.lua
+['binoculars'] = {
+		label = 'Jumelles',
+		weight = 500
+},
