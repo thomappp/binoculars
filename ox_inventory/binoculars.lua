@@ -36,6 +36,6 @@ end
 
 -- ox_inventory/data/items.lua
 ['binoculars'] = {
-		label = 'Jumelles',
-		weight = 500
+    label = 'Jumelles',
+    weight = 500
 },
