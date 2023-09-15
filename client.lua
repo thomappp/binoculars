@@ -249,8 +249,8 @@ Citizen.CreateThread(function()
             end
 
             if IsControlJustReleased(0, Config.exitBinocularsMode) then
-                binocularsActive = false
                 ExitBinocularsMode()
+                binocularsActive = false
             end
 
         end
@@ -260,17 +260,18 @@ Citizen.CreateThread(function()
             local playerPed = PlayerPedId()
             local isInVehicle = IsPedInAnyVehicle(playerPed, false)
             local isInWater = IsEntityInWater(playerPed)
-
-            if isInVehicle or isInWater then
-                binocularsActive = false
+            
+            if (isInVehicle or isInWater) and binocularsCamera ~= nil then
+                ShowNotification("Quelque chose a perturbé votre observation.")
                 ExitBinocularsMode()
+                binocularsActive = false
             end
 
             if playerPedCoords ~= nil then
                 local disturbanceDistance = #(playerPedCoords - GetEntityCoords(playerPed))
                 if disturbanceDistance > 0.5 then
-                    binocularsActive = false
                     ExitBinocularsMode()
+                    binocularsActive = false
                     ShowNotification("Quelque chose a perturbé votre observation.")
                 end
             end

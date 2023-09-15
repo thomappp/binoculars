@@ -1,5 +1,5 @@
-RegisterNetEvent("binoculars_script:binoculars_enabled")
-RegisterNetEvent("binoculars_script:binoculars_disabled")
+RegisterServerEvent("binoculars_script:binoculars_enabled")
+RegisterServerEvent("binoculars_script:binoculars_disabled")
 
 local playersTokens = {}
 
