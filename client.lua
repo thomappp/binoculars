@@ -43,7 +43,10 @@ end
 local CanUseBinoculars = function()
     local playerPed = PlayerPedId()
 
-    if IsPedInAnyVehicle(playerPed, false) then
+    if GetVehiclePedIsEntering(playerPed) ~= 0 then
+        ShowNotification("Vous ne pouvez pas utiliser vos jumelles dans un véhicule.")
+        return false
+    elseif IsPedInAnyVehicle(playerPed, false) then
         ShowNotification("Vous ne pouvez pas utiliser vos jumelles dans un véhicule.")
         return false
     elseif IsEntityInWater(playerPed) then
@@ -260,8 +263,9 @@ Citizen.CreateThread(function()
             local playerPed = PlayerPedId()
             local isInVehicle = IsPedInAnyVehicle(playerPed, false)
             local isInWater = IsEntityInWater(playerPed)
+            local isEnteringInVehicle = GetVehiclePedIsEntering(playerPed)
             
-            if (isInVehicle or isInWater) and binocularsCamera ~= nil then
+            if (isInVehicle or isInWater or isEnteringInVehicle ~= 0) and binocularsCamera ~= nil then
                 ShowNotification("Quelque chose a perturbé votre observation.")
                 ExitBinocularsMode()
                 binocularsActive = false
