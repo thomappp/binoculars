@@ -1,3 +1,5 @@
+local playerToken = nil
+
 local binocularsActive = false
 local binocularsCamera = nil
 local binocularsScaleform = false
@@ -26,6 +28,11 @@ local Config = {
     placeWaypointOnWorld = 215,
     showDistance = true
 }
+
+RegisterNetEvent("binoculars_script:set_client_token")
+AddEventHandler("binoculars_script:set_client_token", function(token)
+    playerToken = token
+end)
 
 local ShowNotification = function(text)
     SetNotificationTextEntry("STRING")
@@ -79,7 +86,7 @@ local EnterBinocularsMode = function()
     SetCamActive(binocularsCamera, true)
     RenderScriptCams(true, false, 0, true, true)
 
-    TriggerServerEvent("simple_v:binoculars_enabled")
+    TriggerServerEvent("binoculars_script:binoculars_enabled", playerToken)
 end
 
 local ExitBinocularsMode = function()
@@ -99,7 +106,7 @@ local ExitBinocularsMode = function()
         SetSeethrough(false)
     end
 
-    TriggerServerEvent("simple_v:binoculars_disabled")
+    TriggerServerEvent("binoculars_script:binoculars_disabled", playerToken)
 end
 
 local Button = function(controlButton)
@@ -231,6 +238,21 @@ Citizen.CreateThread(function()
 
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
             DrawScaleformMovieFullscreen(form, 255, 255, 255, 255, 0)
+
+            if IsControlJustReleased(0, Config.toggleThermalVision) then
+                isThermalVisionActive = not isThermalVisionActive
+                SetSeethrough(isThermalVisionActive)
+            end
+
+            if IsControlJustReleased(0, Config.placeWaypointOnWorld) then
+                PlaceWaypoint(hitSomething, worldPosition)
+            end
+
+            if IsControlJustReleased(0, Config.exitBinocularsMode) then
+                binocularsActive = false
+                ExitBinocularsMode()
+            end
+
         end
 
         if binocularsActive then
@@ -264,20 +286,6 @@ Citizen.CreateThread(function()
             DisableControlAction(1, 37, true)
             DisableControlAction(0, 200, true)
             DisableControlAction(0, 199, true)
-
-            if IsControlJustReleased(0, Config.placeWaypointOnWorld) then
-                PlaceWaypoint(hitSomething, worldPosition)
-            end
-
-            if IsControlJustReleased(0, Config.toggleThermalVision) then
-                isThermalVisionActive = not isThermalVisionActive
-                SetSeethrough(isThermalVisionActive)
-            end
-
-            if IsControlJustReleased(0, Config.exitBinocularsMode) then
-                binocularsActive = false
-                ExitBinocularsMode()
-            end
             
             local pitchChange = -GetDisabledControlNormal(0, 2) * Config.binocularsSpeed
             local yawChange = -GetDisabledControlNormal(0, 1) * Config.binocularsSpeed

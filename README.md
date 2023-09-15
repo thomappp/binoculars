@@ -8,12 +8,11 @@
 - Distance entre le joueur et ce qu'il regarde activable
 - Possibilité de placer un repère sur la carte à partir de la vue des jumelles
 
-# Ajouts à faire en fonction de SimpleV :
+# Ajouts à faire en fonction du serveur :
 - Vérification de la possession de l'item "Jumelles"
 - Désactivation du mode jumelles si le joueur meurt
-- Sécurité arrêt du script par un joueur (système de bannissement)
 - Ajout d'un "/me Le personnage utilise ses jumelles" pour différencier l'animation de base et le script ?
-- Cacher l'HUD du serveur lors de l'utilisation et ne pas pouvoir utiliser les menus et ALT
+- Cacher l'HUD du serveur lors de l'utilisation et ne pas pouvoir utiliser les menus (et ALT si context menu)
 
 ![screeeshot_1](https://github.com/thomappp/binoculars_script/blob/main/screens/image.png?raw=true)
 ![screeeshot_2](https://github.com/thomappp/binoculars_script/blob/main/screens/image_2.png?raw=true)
