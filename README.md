@@ -1,5 +1,6 @@
 # binoculars_script
 - Logs d'activation et de désactivation dans la console
+- Impossibilité de spam les logs avec les triggers (cheat)
 - Sécurité : cooldown de commande, impossible d'utiliser la commande dans un véhicule ou dans l'eau
 - Désactivation du mode jumelles si le joueur se retrouve dans un véhicule ou dans l'eau par magie
 - Accès au menu pause et à la molette des armes impossible dans le mode jumelles
