@@ -38,6 +38,14 @@ AddEventHandler("playerJoining", function()
     SetPlayerToken(playerSource, token)
 end)
 
+AddEventHandler("playerDropped", function()
+    local playerSource = source
+    
+    if playersTokens[playerSource] then
+        playersTokens[playerSource] = nil
+    end
+end)
+
 AddEventHandler("binoculars_script:binoculars_enabled", function(token)
     local playerSource = source
     
